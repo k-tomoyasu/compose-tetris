@@ -59,7 +59,7 @@ class GameViewModel : ViewModel() {
                         } else state
 
                     is Action.Move -> run {
-                        if (!state.isRuning) return@run state
+                        if (!state.isRuning || state.spirit == Empty) return@run state
                         SoundUtil.play(state.isMute, SoundType.Move)
                         val offset = action.direction.toOffset()
                         val spirit = state.spirit.moveBy(offset)
