@@ -35,10 +35,12 @@ class MainActivity : ComponentActivity() {
                     val viewModel = viewModel<GameViewModel>()
                     val viewState = viewModel.viewState.value
 
-                    LaunchedEffect(key1 = Unit) {
-                        while (isActive) {
-                            delay(650L - 55 * (viewState.level - 1))
-                            viewModel.dispatch(Action.GameTick)
+                    if (viewModel.viewState.value.isRuning) {
+                        LaunchedEffect(key1 = Unit) {
+                            while (isActive) {
+                                delay(650L - 55 * (viewState.level - 1))
+                                viewModel.dispatch(Action.GameTick)
+                            }
                         }
                     }
 
