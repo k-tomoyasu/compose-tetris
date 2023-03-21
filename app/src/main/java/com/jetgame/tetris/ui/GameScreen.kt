@@ -51,6 +51,7 @@ import com.jetgame.tetris.logic.Spirit
 import com.jetgame.tetris.logic.SpiritType
 import com.jetgame.tetris.ui.theme.BrickMatrix
 import com.jetgame.tetris.ui.theme.BrickSpirit
+import com.jetgame.tetris.ui.theme.BrickSpiritShadow
 import com.jetgame.tetris.ui.theme.ScreenBackground
 import kotlinx.coroutines.ObsoleteCoroutinesApi
 import kotlin.math.min
@@ -93,6 +94,7 @@ fun GameScreen(modifier: Modifier = Modifier) {
             drawMatrixBorder(brickSize, viewState.matrix)
             drawBricks(viewState.bricks, brickSize, viewState.matrix)
             drawSpirit(viewState.spirit, brickSize, viewState.matrix)
+            drawSpiritShadow(viewState.spiritShadow, brickSize, viewState.matrix)
             drawText(viewState.gameStatus, brickSize, viewState.matrix, animateValue)
 
         }
@@ -264,7 +266,7 @@ private fun DrawScope.drawBricks(brick: List<Brick>, brickSize: Float, matrix: P
     }
 }
 
-private fun DrawScope.drawSpirit(spirit: Spirit, brickSize: Float, matrix: Pair<Int, Int>) {
+private fun DrawScope.drawSpirit(spirit: Spirit, brickSize: Float, matrix: Pair<Int, Int>, color: Color = BrickSpirit) {
     clipRect(
         0f, 0f,
         matrix.first * brickSize,
@@ -274,10 +276,19 @@ private fun DrawScope.drawSpirit(spirit: Spirit, brickSize: Float, matrix: Pair<
             drawBrick(
                 brickSize,
                 Offset(it.x, it.y),
-                BrickSpirit
+                color
             )
         }
     }
+}
+
+private fun DrawScope.drawSpiritShadow(spirit: Spirit, brickSize: Float, matrix: Pair<Int, Int>) {
+    drawSpirit(
+        spirit,
+        brickSize,
+        matrix,
+        BrickSpiritShadow
+    )
 }
 
 private fun DrawScope.drawBrick(

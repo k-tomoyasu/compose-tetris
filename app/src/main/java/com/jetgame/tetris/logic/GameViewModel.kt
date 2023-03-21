@@ -260,6 +260,20 @@ class GameViewModel : ViewModel() {
 
         val isRuning
             get() = gameStatus == GameStatus.Running
+
+        val spiritShadow: Spirit = run {
+            if (gameStatus != GameStatus.Running && gameStatus != GameStatus.Paused) return@run spirit
+            dropShadow(spirit)
+        }
+
+        private fun dropShadow(spirit: Spirit): Spirit {
+            if (spirit == Empty) return spirit
+            val falling = spirit.moveBy(Direction.Down.toOffset())
+            if (!falling.moveBy(Direction.Down.toOffset()).isValidInMatrix(bricks, matrix)) {
+                return falling
+            }
+            return dropShadow(falling)
+        }
     }
 
 }
